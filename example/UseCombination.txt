@@ -1,0 +1,60 @@
+All Items:
+	(A,B,C,D,E)
+
+All Combinations:
+	(E),
+	(D),
+	(D, E),
+	(C),
+	(C, E),
+	(C, D),
+	(C, D, E),
+	(B),
+	(B, E),
+	(B, D),
+	(B, D, E),
+	(B, C),
+	(B, C, E),
+	(B, C, D),
+	(B, C, D, E),
+	(A),
+	(A, E),
+	(A, D),
+	(A, D, E),
+	(A, C),
+	(A, C, E),
+	(A, C, D),
+	(A, C, D, E),
+	(A, B),
+	(A, B, E),
+	(A, B, D),
+	(A, B, D, E),
+	(A, B, C),
+	(A, B, C, E),
+	(A, B, C, D),
+	(A, B, C, D, E)
+
+All Pairs:
+	(A, B),
+	(A, C),
+	(A, D),
+	(A, E),
+	(B, C),
+	(B, D),
+	(B, E),
+	(C, D),
+	(C, E),
+	(D, E)
+
+All Combinations of 3 elements:
+	(C, D, E),
+	(B, D, E),
+	(B, C, E),
+	(B, C, D),
+	(A, D, E),
+	(A, C, E),
+	(A, C, D),
+	(A, B, E),
+	(A, B, D),
+	(A, B, C)
+
