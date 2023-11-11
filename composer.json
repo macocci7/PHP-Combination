@@ -1,0 +1,21 @@
+{
+    "name": "macocci7/php-combination",
+    "description": "a simple PHP library to make combinations",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Macocci7\\PhpCombination\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "macocci7",
+            "email": "macocci7@yahoo.co.jp"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^3.7"
+    }
+}
