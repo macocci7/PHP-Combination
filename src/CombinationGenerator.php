@@ -2,7 +2,7 @@
 
 namespace Macocci7\PhpCombination;
 
-class Combination
+class CombinationGenerator
 {
     /**
      * returns system bit
@@ -20,10 +20,9 @@ class Combination
     /**
      * returns all combinations
      * @param   array   $items
-     * @param   bool    $sort = false
      * @return  array
      */
-    public function all(array $items, bool $sort = false)
+    public function all(array $items)
     {
         $count = count($items);
         if (0 === $count) {
@@ -42,13 +41,8 @@ class Combination
                     $combination[] = $items[$index];
                 }
             }
-            $combinations[] = $combination;
+            yield $combination;
         }
-        if ($sort) {
-            $strs = array_map(fn ($c): string => implode(',', $c), $combinations);
-            array_multisort($strs, SORT_ASC, SORT_STRING, $combinations);
-        }
-        return $combinations;
     }
 
     /**
@@ -65,20 +59,18 @@ class Combination
         $lastIndex = count($items) - 1;
         for ($x = 0; $x < $lastIndex; $x++) {
             for ($y = $x + 1; $y <= $lastIndex; $y++) {
-                $pairs[] = [$items[$x], $items[$y]];
+                yield [$items[$x], $items[$y]];
             }
         }
-        return $pairs;
     }
 
     /**
      * returns all combinations of $n elements
      * @param   array   $items
      * @param   int     $n
-     * @param   bool    $sort = false
      * @return  array
      */
-    public function ofN(array $items, int $n, bool $sort = false)
+    public function ofN(array $items, int $n)
     {
         /**
          * ex) $items = [1,2,3,4], $n = 3
@@ -88,12 +80,11 @@ class Combination
             throw new \Exception("Invalid number specified.");
         }
         $r = [];
-        foreach ($this->all($items, $sort) as $c) {
+        foreach ($this->all($items) as $c) {
             if (count($c) === $n) {
-                $r[] = $c;
+                yield $c;
             }
         }
-        return $r;
     }
 
     /**
@@ -101,10 +92,9 @@ class Combination
      * @param   array   $items
      * @param   int     $a
      * @param   int     $b
-     * @param   bool    $sort = false
      * @return  array
      */
-    public function ofA2B(array $items, int $a, int $b, bool $sort = false)
+    public function ofA2B(array $items, int $a, int $b)
     {
         if ($a < 1 || $b < 1) {
             throw new \Exception("Invalid number specified.");
@@ -117,12 +107,11 @@ class Combination
             throw new \Exception("B exceeds the number of elements.");
         }
         $combinations = [];
-        foreach ($this->all($items, $sort) as $c) {
+        foreach ($this->all($items) as $c) {
             $count = count($c);
             if ($a <= $count && $count <= $b) {
-                $combinations[] = $c;
+                yield $c;
             }
         }
-        return $combinations;
     }
 }

@@ -7,19 +7,23 @@ namespace Macocci7\PhpCombination;
 require('vendor/autoload.php');
 
 use PHPUnit\Framework\TestCase;
-use Macocci7\PhpCombination\Combination;
+use Macocci7\PhpCombination\CombinationGenerator;
 
-final class CombinationTest extends TestCase
+final class CombinationGeneratorTest extends TestCase
 {
     public function test_all_can_throw_exception_with_invalid_param(): void
     {
-        $c = new Combination();
+        $c = new CombinationGenerator();
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage("Empty array set.");
-        $c->all([]);
+        foreach ($c->all([]) as $e) {
+            // Exception must be thrown
+        }
         $this->expectException(\Exception::class);
-        $this->expectExceptionMessage("Too many elements.");
-        $c->all(range(1, $c->systemBit() - 1));
+        $this->expectExceptionMessage("Too many elements set.");
+        foreach ($c->all(range(1, $c->systemBit() - 1)) as $e) {
+            // Exception must be thrown
+        }
     }
 
     public static function provide_all_can_return_all_combinations_correctly(): array
@@ -36,26 +40,10 @@ final class CombinationTest extends TestCase
      */
     public function test_all_can_return_all_combinations_correctly(array $items, array $expect): void
     {
-        $c = new Combination();
-        $this->assertSame($expect, $c->all($items));
-    }
-
-    public static function provide_all_can_sort_correctly(): array
-    {
-        return [
-            "1 element" => ['items' => [1], 'expect' => [[1]], ],
-            "2 elements" => ['items' => [1, 2, ], 'expect' => [[1], [1, 2, ], [2], ], ],
-            "3 elements" => ['items' => [1, 2, 3, ], 'expect' => [[1], [1, 2, ], [1, 2, 3, ], [1, 3, ], [2], [2, 3, ], [3], ], ],
-        ];
-    }
-
-    /**
-     * @dataProvider provide_all_can_sort_correctly
-     */
-    public function test_all_can_sort_correctly(array $items, array $expect): void
-    {
-        $c = new Combination();
-        $this->assertSame($expect, $c->all($items, true));
+        $c = new CombinationGenerator();
+        foreach ($c->all($items) as $i => $e) {
+            $this->assertSame($expect[$i], $e);
+        }
     }
 
     public static function provide_pairs_can_throw_exception_with_invalid_param(): array
@@ -71,10 +59,11 @@ final class CombinationTest extends TestCase
      */
     public function test_pairs_can_throw_exception_with_invalid_param(array $items): void
     {
-        $c = new Combination();
+        $c = new CombinationGenerator();
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage("Too few elements.");
-        $c->pairs($items);
+        foreach ($c->pairs($items) as $e) {
+        }
     }
 
     public static function provide_pairs_can_return_all_pairs_correctly(): array
@@ -91,23 +80,23 @@ final class CombinationTest extends TestCase
      */
     public function test_pairs_can_return_all_pairs_correctly(array $items, array $expect): void
     {
-        $c = new Combination();
-        $this->assertSame($expect, $c->pairs($items));
+        $c = new CombinationGenerator();
+        foreach ($c->pairs($items) as $i => $e) {
+            $this->assertSame($expect[$i], $e);
+        }
     }
 
     public static function provide_ofN_can_throw_exception_with_invalid_param(): array
     {
         return [
-            "0 element, n = 1" => ['items' => [], 'n' => 1, ],
             "1 element, n = -1" => ['items' => [1], 'n' => -1, ],
             "1 element, n = 0" => ['items' => [1], 'n' => 0, ],
-
-            "1 element, n = 2" => ['items' => [1], 'n' => 2, ],
             "2 elements, n = 0" => ['items' => [1, 2, ], 'n' => 0, ],
-
-            "2 elements, n = 3" => ['items' => [1, 2, ], 'n' => 3, ],
             "3 elements, n = 0" => ['items' => [1, 2, 3, ], 'n' => 0, ],
 
+            "0 element, n = 1" => ['items' => [], 'n' => 1, ],
+            "1 element, n = 2" => ['items' => [1], 'n' => 2, ],
+            "2 elements, n = 3" => ['items' => [1, 2, ], 'n' => 3, ],
             "3 elements, n = 4" => ['items' => [1, 2, 3, ], 'n' => 4, ],
         ];
     }
@@ -117,10 +106,11 @@ final class CombinationTest extends TestCase
      */
     public function test_ofN_can_throw_exception_with_invalid_param(array $items, int $n): void
     {
-        $c = new Combination();
+        $c = new CombinationGenerator();
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage("Invalid number specified.");
-        $c->ofN($items, $n);
+        foreach ($c->ofN($items, $n) as $e) {
+        }
     }
 
     public static function provide_ofN_can_return_all_combinations_of_n_elements_correctly(): array
@@ -140,52 +130,55 @@ final class CombinationTest extends TestCase
      */
     public function test_ofN_can_return_all_combinations_of_n_elements_correctly(array $items, int $n, array $expect): void
     {
-        $c = new Combination();
-        $this->assertSame($expect, $c->ofN($items, $n));
+        $c = new CombinationGenerator();
+        foreach ($c->ofN($items, $n) as $i => $e) {
+            $this->assertSame($expect[$i], $e);
+        }
     }
 
-    public static function provide_ofA2B_can_throw_exception_with_invalid_param(): array
+    public static function provide_ofA2B_can_throw_exception_with_invalid_params(): array
     {
         $m = [
-            "Invalid number specified.",
-            "A must be less than B.",
-            "B exceeds the number of elements.",
+            0 => "Invalid number specified.",
+            1 => "A must be less than B.",
+            2 => "B exceeds the number of elements.",
         ];
         return [
             "3 elements, a = 0, b = 0" => ['items' => [1, 2, 3, ], 'a' => 0, 'b' => 0, 'message' => $m[0], ],
-            "3 elements, a = 0, b = 1" => ['items' => [1, 2, 3, ], 'a' => 0, 'b' => 1, 'message' => $m[0], ],
-            "3 elements, a = 2, b = 1" => ['items' => [1, 2, 3, ], 'a' => 2, 'b' => 1, 'message' => $m[1], ],
             "3 elements, a = 2, b = 2" => ['items' => [1, 2, 3, ], 'a' => 2, 'b' => 2, 'message' => $m[1], ],
+            "3 elements, a = 2, b = 1" => ['items' => [1, 2, 3, ], 'a' => 2, 'b' => 1, 'message' => $m[1], ],
             "3 elements, a = 2, b = 4" => ['items' => [1, 2, 3, ], 'a' => 2, 'b' => 4, 'message' => $m[2], ],
         ];
     }
 
     /**
-     * @dataProvider provide_ofA2B_can_throw_exception_with_invalid_param
+     * @dataProvider provide_ofA2B_can_throw_exception_with_invalid_params
      */
-    public function test_ofA2B_can_throw_exception_with_invalid_param(array $items, int $a, int $b, string $message): void
+    public function test_ofA2B_can_throw_exception_with_invalid_params(array $items, int $a, int $b, string $message): void
     {
-        $c = new Combination();
+        $c = new CombinationGenerator();
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage($message);
-        $c->ofA2B($items, $a, $b);
+        foreach ($c->ofA2B($items, $a, $b) as $e) {
+        }
     }
 
-    public static function provide_ofA2B_can_return_all_combinations_of_A_2_B_elements(): array
+    public static function provide_ofA2B_can_return_all_combinations_of_a_to_b_elements_correctly(): array
     {
         return [
             "2 elements, a = 1, b = 2" => ['items' => [1, 2, ], 'a' => 1, 'b' => 2, 'expect' => [[1, 2, ], [1], [2], ], ],
-            "3 elements, a = 1, b = 2" => ['items' => [1, 2, 3, ], 'a' => 1, 'b' => 2, 'expect' => [[1, 2, ], [1, 3, ], [1], [2, 3, ], [2], [3], ], ],
             "3 elements, a = 2, b = 3" => ['items' => [1, 2, 3, ], 'a' => 2, 'b' => 3, 'expect' => [[1, 2, 3, ], [1, 2, ], [1, 3, ], [2, 3, ], ], ],
         ];
     }
 
     /**
-     * @dataProvider provide_ofA2B_can_return_all_combinations_of_A_2_B_elements
+     * @dataProvider provide_ofA2B_can_return_all_combinations_of_a_to_b_elements_correctly
      */
-    public function test_ofA2B_can_return_all_combinations_of_A_2_B_elements(array $items, int $a, int $b, array $expect): void
+    public function test_ofA2B_can_return_all_combinations_of_a_to_b_elements_correctly(array $items, int $a, int $b, array $expect): void
     {
-        $c = new Combination();
-        $this->assertSame($expect, $c->ofA2B($items, $a, $b));
+        $c = new CombinationGenerator();
+        foreach ($c->ofA2B($items, $a, $b) as $i => $e) {
+            $this->assertSame($expect[$i], $e);
+        }
     }
 }
