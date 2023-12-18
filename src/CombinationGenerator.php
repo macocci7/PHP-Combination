@@ -2,25 +2,14 @@
 
 namespace Macocci7\PhpCombination;
 
+use Macocci7\PhpCombination\Util;
+
 class CombinationGenerator
 {
     /**
-     * returns system bit
-     * @param
-     * @return  int
-     */
-    public function systemBit()
-    {
-        // PHP_INT_MAX:
-        // - 32bit-system: 4 (bytes)
-        // - 64bit-system: 8 (bytes)
-        return PHP_INT_MAX * 8;
-    }
-
-    /**
      * returns all combinations
      * @param   array   $items
-     * @return  array
+     * @return  \Generator
      */
     public function all(array $items)
     {
@@ -28,7 +17,7 @@ class CombinationGenerator
         if (0 === $count) {
             throw new \Exception("Empty array set.");
         }
-        if ($count >= $this->systemBit() - 1) {
+        if ($count >= Util::systemBit() - 1) {
             throw new \Exception("Too many elements.");
         }
         $numberOfAllPatterns = 2 ** $count;
@@ -48,7 +37,7 @@ class CombinationGenerator
     /**
      * returns all pairs
      * @param   array   $items
-     * @return  array
+     * @return  \Generator
      */
     public function pairs(array $items)
     {
@@ -68,7 +57,7 @@ class CombinationGenerator
      * returns all combinations of $n elements
      * @param   array   $items
      * @param   int     $n
-     * @return  array
+     * @return  \Generator
      */
     public function ofN(array $items, int $n)
     {
@@ -92,7 +81,7 @@ class CombinationGenerator
      * @param   array   $items
      * @param   int     $a
      * @param   int     $b
-     * @return  array
+     * @return  \Generator
      */
     public function ofA2B(array $items, int $a, int $b)
     {

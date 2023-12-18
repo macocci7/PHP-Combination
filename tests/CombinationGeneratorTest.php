@@ -7,6 +7,7 @@ namespace Macocci7\PhpCombination;
 require('vendor/autoload.php');
 
 use PHPUnit\Framework\TestCase;
+use Macocci7\PhpCombination\Util;
 use Macocci7\PhpCombination\CombinationGenerator;
 
 final class CombinationGeneratorTest extends TestCase
@@ -21,7 +22,7 @@ final class CombinationGeneratorTest extends TestCase
         }
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage("Too many elements set.");
-        foreach ($c->all(range(1, $c->systemBit() - 1)) as $e) {
+        foreach ($c->all(range(1, Util::systemBit() - 1)) as $e) {
             // Exception must be thrown
         }
     }

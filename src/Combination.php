@@ -2,21 +2,10 @@
 
 namespace Macocci7\PhpCombination;
 
+use Macocci7\PhpCombination\Util;
+
 class Combination
 {
-    /**
-     * returns system bit
-     * @param
-     * @return  int
-     */
-    public function systemBit()
-    {
-        // PHP_INT_MAX:
-        // - 32bit-system: 4 (bytes)
-        // - 64bit-system: 8 (bytes)
-        return PHP_INT_MAX * 8;
-    }
-
     /**
      * returns all combinations
      * @param   array   $items
@@ -29,7 +18,7 @@ class Combination
         if (0 === $count) {
             throw new \Exception("Empty array set.");
         }
-        if ($count >= $this->systemBit() - 1) {
+        if ($count >= Util::systemBit() - 1) {
             throw new \Exception("Too many elements.");
         }
         $numberOfAllPatterns = 2 ** $count;
@@ -124,5 +113,77 @@ class Combination
             }
         }
         return $combinations;
+    }
+
+    /**
+     * validates the param
+     * @param   array   $arrays
+     * @return  void
+     * @thrown  \Exception
+     */
+    public function validateArrays(array $arrays): void
+    {
+        // check if empty
+        if (empty($arrays)) {
+            throw new \Exception("Empty array set.");
+        }
+        // check types
+        $counts = [];
+        foreach ($arrays as $index => $array) {
+            if (!is_array($array)) {
+                $message = sprintf("index[%d]: Array expected.", $index);
+                throw new \Exception($message);
+            }
+            $counts[] = count($array);
+        }
+        // check number of combination patterns
+        $patterns = 1;
+        foreach ($counts as $count) {
+            $patterns *= $count;
+        }
+        if (is_float($patterns)) {
+            $message = $patterns . " patterns found (over limit).";
+            throw new \Exception($message);
+        }
+    }
+
+    /**
+     * returns all combinations from arrays
+     * @param   array   $arrays     each elements must be array.
+     * @return  array
+     * @thrown  \Exception
+     */
+    public function fromArrays(array $arrays): array
+    {
+        // validate
+        $this->validateArrays($arrays);
+        // initialize
+        $combinations = [];
+        // make combinations
+        foreach ($arrays[0] as $i => $a) {
+            $this->makeCombinationsRecursive([$a], $arrays, $combinations);
+        }
+        return $combinations;
+    }
+
+    /**
+     * makes combinations recusively
+     * @param   array   $a
+     * @param   array   &$arrays
+     * @param   array   &$combinations
+     * @return  void
+     */
+    private function makeCombinationsRecursive($a, &$arrays, &$combinations)
+    {
+        $countA = count($a);
+        if ($countA < count($arrays)) {
+            foreach ($arrays[$countA] as $b) {
+                $c = $a;
+                $c[] = $b;
+                $this->makeCombinationsRecursive($c, $arrays, $combinations);
+            }
+        } else {
+            $combinations[] = $a;
+        }
     }
 }
