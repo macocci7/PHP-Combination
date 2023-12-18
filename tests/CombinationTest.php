@@ -7,6 +7,7 @@ namespace Macocci7\PhpCombination;
 require('vendor/autoload.php');
 
 use PHPUnit\Framework\TestCase;
+use Macocci7\PhpCombination\Util;
 use Macocci7\PhpCombination\Combination;
 
 final class CombinationTest extends TestCase
@@ -19,7 +20,7 @@ final class CombinationTest extends TestCase
         $c->all([]);
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage("Too many elements.");
-        $c->all(range(1, $c->systemBit() - 1));
+        $c->all(range(1, Util::systemBit() - 1));
     }
 
     public static function provide_all_can_return_all_combinations_correctly(): array
@@ -187,5 +188,45 @@ final class CombinationTest extends TestCase
     {
         $c = new Combination();
         $this->assertSame($expect, $c->ofA2B($items, $a, $b));
+    }
+
+    public static function provide_validateArrays_can_throw_exception_with_invalid_param(): array
+    {
+        return [
+            "Empty" => ['arrays' => [], 'message' => "Empty array set.", ],
+            "non-array included" => ['arrays' => [[1], [2], 3, ], 'message' => "index[2]: Array expected.", ],
+            "over limit" => ['arrays' => [array_fill(0, 55109, null), array_fill(0, 55109, null), array_fill(0, 55109, null), array_fill(0, 55109, null), ], 'message' => " patterns found (over limit).", ],
+        ];
+    }
+
+    /**
+     * @dataProvider provide_validateArrays_can_throw_exception_with_invalid_param
+     */
+    public function test_validateArrays_can_throw_exception_with_invalid_param(array $arrays, string $message): void
+    {
+        $c = new Combination();
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage($message);
+        $c->validateArrays($arrays);
+    }
+
+    public static function provide_fromArrays_can_return_combinations_correctly(): array
+    {
+        return [
+            "1 element" => ['arrays' => [[1]], 'expect' => [[1]], ],
+            "1 element, 1 element" => ['arrays' => [[1], [2], ], 'expect' => [[1, 2, ]], ],
+            "1 element, 2 elements" => ['array' => [[1], [2, 3, ], ], 'expect' => [[1, 2, ], [1, 3, ], ], ],
+            "2 elements, 2 elements" => ['array' => [[1, 2, ], [3, 4, ], ], 'expect' => [[1, 3, ], [1, 4, ], [2, 3, ], [2, 4, ], ], ],
+            "2 elements, 2 elements, 2 elements" => ['array' => [[1, 2, ], [3, 4, ], [5, 6, ], ], 'expect' => [[1, 3, 5, ], [1, 3, 6, ], [1, 4, 5, ], [1, 4, 6, ], [2, 3, 5, ], [2, 3, 6, ], [2, 4, 5, ], [2, 4, 6, ], ], ],
+        ];
+    }
+
+    /**
+     * @dataProvider provide_fromArrays_can_return_combinations_correctly
+     */
+    public function test_fromArrays_can_return_combinations_correctly(array $arrays, array $expect): void
+    {
+        $c = new Combination();
+        $this->assertSame($expect, $c->fromArrays($arrays));
     }
 }

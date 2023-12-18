@@ -48,3 +48,20 @@ echo sprintf(
     $b,
     implode("\n\t", array_map($f, $c->ofA2B($items, $a, $b, $sort)))
 );
+
+// All Combinations of $a1, $a2 and $a3: does not support sorting
+$a1 = ['A1', 'A2', ];
+$a2 = ['B1', 'B2', 'B3', ];
+$a3 = ['C1', 'C2', 'C3', 'C4', ];
+
+echo "All Combinations of multiple arrays:\n";
+echo sprintf("\tArray1: (%s)\n", implode(', ', $a1));
+echo sprintf("\tArray2: (%s)\n", implode(', ', $a2));
+echo sprintf("\tArray3: (%s)\n", implode(', ', $a3));
+
+$r = $c->fromArrays([$a1, $a2, $a3, ]);
+$n = strlen((string) count($r));
+echo sprintf("\tThere're %d patterns:\n", count($r));
+foreach ($r as $i => $e) {
+    echo sprintf("\t%" . $n . "d: (%s)\n", $i + 1, implode(', ', $e));
+}

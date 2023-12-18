@@ -1,6 +1,6 @@
 {
     "name": "macocci7/php-combination",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "a simple PHP library to make combinations",
     "type": "library",
     "license": "MIT",

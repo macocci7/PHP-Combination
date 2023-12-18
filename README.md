@@ -96,10 +96,13 @@ It will never exceeds the memory limit, and certanily complete the task.
 
 ## Methods
 
-- all(): returns all combinations of the param
-- pairs(): returns all pairs of the param
-- ofN(): returns all combinations of N elements of the param
-- ofA2B(): returns all combinations of A to B elements of the param
+- `all()`: returns all combinations of the param
+- `pairs()`: returns all pairs of the param
+- `ofN()`: returns all combinations of N elements of the param
+- `ofA2B()`: returns all combinations of A to B elements of the param
+- `fromArrays()`: returns all combinations of multiple arrays
+
+  `fromArrays()` is only implemented in `Combination` class.
 
 ## Limit on the Number of Array Elements
 
@@ -169,6 +172,23 @@ The max index number of array in PHP equals to `PHP_INT_MAX`.
         $b,
         implode("\n\t", array_map($f, $c->ofA2B($items, $a, $b)))
     );
+
+    // All Combinations of $a1, $a2 and $a3
+    $a1 = ['A1', 'A2', ];
+    $a2 = ['B1', 'B2', 'B3', ];
+    $a3 = ['C1', 'C2', 'C3', 'C4', ];
+
+    echo "All Combinations of multiple arrays:\n";
+    echo sprintf("\tArray1: (%s)\n", implode(', ', $a1));
+    echo sprintf("\tArray2: (%s)\n", implode(', ', $a2));
+    echo sprintf("\tArray3: (%s)\n", implode(', ', $a3));
+
+    $r = $c->fromArrays([$a1, $a2, $a3, ]);
+    $n = strlen((string) count($r));
+    echo sprintf("\tThere're %d patterns:\n", count($r));
+    foreach ($r as $i => $e) {
+        echo sprintf("\t%" . $n . "d: (%s)\n", $i + 1, implode(', ', $e));
+    }
     ```
 
 - Result:
@@ -251,6 +271,35 @@ The max index number of array in PHP equals to `PHP_INT_MAX`.
         (B, D, E)
         (C, D, E)
 
+    All Combinations of multiple arrays:
+        Array1: (A1, A2)
+        Array2: (B1, B2, B3)
+        Array3: (C1, C2, C3, C4)
+        There're 24 patterns:
+        1: (A1, B1, C1)
+        2: (A1, B1, C2)
+        3: (A1, B1, C3)
+        4: (A1, B1, C4)
+        5: (A1, B2, C1)
+        6: (A1, B2, C2)
+        7: (A1, B2, C3)
+        8: (A1, B2, C4)
+        9: (A1, B3, C1)
+        10: (A1, B3, C2)
+        11: (A1, B3, C3)
+        12: (A1, B3, C4)
+        13: (A2, B1, C1)
+        14: (A2, B1, C2)
+        15: (A2, B1, C3)
+        16: (A2, B1, C4)
+        17: (A2, B2, C1)
+        18: (A2, B2, C2)
+        19: (A2, B2, C3)
+        20: (A2, B2, C4)
+        21: (A2, B3, C1)
+        22: (A2, B3, C2)
+        23: (A2, B3, C3)
+        24: (A2, B3, C4)
     ```
 
 ### Using Combination with Sorting
@@ -308,6 +357,23 @@ The max index number of array in PHP equals to `PHP_INT_MAX`.
         $b,
         implode("\n\t", array_map($f, $c->ofA2B($items, $a, $b, $sort)))
     );
+
+    // All Combinations of $a1, $a2 and $a3: does not support sorting
+    $a1 = ['A1', 'A2', ];
+    $a2 = ['B1', 'B2', 'B3', ];
+    $a3 = ['C1', 'C2', 'C3', 'C4', ];
+
+    echo "All Combinations of multiple arrays:\n";
+    echo sprintf("\tArray1: (%s)\n", implode(', ', $a1));
+    echo sprintf("\tArray2: (%s)\n", implode(', ', $a2));
+    echo sprintf("\tArray3: (%s)\n", implode(', ', $a3));
+
+    $r = $c->fromArrays([$a1, $a2, $a3, ]);
+    $n = strlen((string) count($r));
+    echo sprintf("\tThere're %d patterns:\n", count($r));
+    foreach ($r as $i => $e) {
+        echo sprintf("\t%" . $n . "d: (%s)\n", $i + 1, implode(', ', $e));
+    }
     ```
 
 - Result:
@@ -390,6 +456,35 @@ The max index number of array in PHP equals to `PHP_INT_MAX`.
         (B, D, E)
         (C, D, E)
 
+    All Combinations of multiple arrays:
+        Array1: (A1, A2)
+        Array2: (B1, B2, B3)
+        Array3: (C1, C2, C3, C4)
+        There're 24 patterns:
+        1: (A1, B1, C1)
+        2: (A1, B1, C2)
+        3: (A1, B1, C3)
+        4: (A1, B1, C4)
+        5: (A1, B2, C1)
+        6: (A1, B2, C2)
+        7: (A1, B2, C3)
+        8: (A1, B2, C4)
+        9: (A1, B3, C1)
+        10: (A1, B3, C2)
+        11: (A1, B3, C3)
+        12: (A1, B3, C4)
+        13: (A2, B1, C1)
+        14: (A2, B1, C2)
+        15: (A2, B1, C3)
+        16: (A2, B1, C4)
+        17: (A2, B2, C1)
+        18: (A2, B2, C2)
+        19: (A2, B2, C3)
+        20: (A2, B2, C4)
+        21: (A2, B3, C1)
+        22: (A2, B3, C2)
+        23: (A2, B3, C3)
+        24: (A2, B3, C4)
     ```
 
 ### Using CombinationGenerator
@@ -545,6 +640,6 @@ The max index number of array in PHP equals to `PHP_INT_MAX`.
 
 *Document Created: 2023/11/11*
 
-*Document Updated: 2023/12/16*
+*Document Updated: 2023/12/18*
 
 Copyright 2023 macocci7
