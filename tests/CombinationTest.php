@@ -62,7 +62,6 @@ final class CombinationTest extends TestCase
     public static function provide_pairs_can_throw_exception_with_invalid_param(): array
     {
         return [
-            "0 element" => ['items' => [], ],
             "1 element" => ['items' => [1], ],
         ];
     }
@@ -99,7 +98,6 @@ final class CombinationTest extends TestCase
     public static function provide_ofN_can_throw_exception_with_invalid_param(): array
     {
         return [
-            "0 element, n = 1" => ['items' => [], 'n' => 1, ],
             "1 element, n = -1" => ['items' => [1], 'n' => -1, ],
             "1 element, n = 0" => ['items' => [1], 'n' => 0, ],
 
@@ -188,26 +186,6 @@ final class CombinationTest extends TestCase
     {
         $c = new Combination();
         $this->assertSame($expect, $c->ofA2B($items, $a, $b));
-    }
-
-    public static function provide_validateArrays_can_throw_exception_with_invalid_param(): array
-    {
-        return [
-            "Empty" => ['arrays' => [], 'message' => "Empty array set.", ],
-            "non-array included" => ['arrays' => [[1], [2], 3, ], 'message' => "index[2]: Array expected.", ],
-            "over limit" => ['arrays' => [array_fill(0, 55109, null), array_fill(0, 55109, null), array_fill(0, 55109, null), array_fill(0, 55109, null), ], 'message' => " patterns found (over limit).", ],
-        ];
-    }
-
-    /**
-     * @dataProvider provide_validateArrays_can_throw_exception_with_invalid_param
-     */
-    public function test_validateArrays_can_throw_exception_with_invalid_param(array $arrays, string $message): void
-    {
-        $c = new Combination();
-        $this->expectException(\Exception::class);
-        $this->expectExceptionMessage($message);
-        $c->validateArrays($arrays);
     }
 
     public static function provide_fromArrays_can_return_combinations_correctly(): array

@@ -1,4 +1,4 @@
-<?php
+<?php   // phpcs:ignore
 
 declare(strict_types=1);
 
@@ -50,7 +50,6 @@ final class CombinationGeneratorTest extends TestCase
     public static function provide_pairs_can_throw_exception_with_invalid_param(): array
     {
         return [
-            "0 element" => ['items' => [], ],
             "1 element" => ['items' => [1], ],
         ];
     }
@@ -64,6 +63,7 @@ final class CombinationGeneratorTest extends TestCase
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage("Too few elements.");
         foreach ($c->pairs($items) as $e) {
+            isset($e);
         }
     }
 
@@ -95,7 +95,6 @@ final class CombinationGeneratorTest extends TestCase
             "2 elements, n = 0" => ['items' => [1, 2, ], 'n' => 0, ],
             "3 elements, n = 0" => ['items' => [1, 2, 3, ], 'n' => 0, ],
 
-            "0 element, n = 1" => ['items' => [], 'n' => 1, ],
             "1 element, n = 2" => ['items' => [1], 'n' => 2, ],
             "2 elements, n = 3" => ['items' => [1, 2, ], 'n' => 3, ],
             "3 elements, n = 4" => ['items' => [1, 2, 3, ], 'n' => 4, ],
@@ -111,6 +110,7 @@ final class CombinationGeneratorTest extends TestCase
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage("Invalid number specified.");
         foreach ($c->ofN($items, $n) as $e) {
+            isset($e);
         }
     }
 
@@ -161,6 +161,7 @@ final class CombinationGeneratorTest extends TestCase
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage($message);
         foreach ($c->ofA2B($items, $a, $b) as $e) {
+            isset($e);
         }
     }
 

@@ -8,8 +8,11 @@ use Macocci7\PhpCombination\Combination;
 $c = new Combination();
 
 // All Items
-$items = ['A', 'B', 'C', 'D', 'E', ];
+$items = [ 'A', 'B', 'C', 'D', 'E', ];
 echo sprintf("All Items:\n\t(%s)\n\n", implode(", ", $items));
+
+// Set a flag to sort
+$sort = true;
 
 // Call back
 $f = function (array $array): string {
@@ -19,10 +22,10 @@ $f = function (array $array): string {
 // All Combinations
 echo sprintf(
     "All Combinations:\n\t%s\n\n",
-    implode("\n\t", array_map($f, $c->all($items)))
+    implode("\n\t", array_map($f, $c->all($items, $sort)))
 );
 
-// All Pairs
+// All Pairs: does not support sorting
 echo sprintf(
     "All Pairs:\n\t%s\n\n",
     implode("\n\t", array_map($f, $c->pairs($items)))
@@ -33,7 +36,7 @@ $n = 3;
 echo sprintf(
     "All Combinations of %d elements:\n\t%s\n\n",
     $n,
-    implode("\n\t", array_map($f, $c->ofN($items, $n)))
+    implode("\n\t", array_map($f, $c->ofN($items, $n, $sort)))
 );
 
 // All Combinations of $a to $b elements
@@ -43,13 +46,13 @@ echo sprintf(
     "All Combinations of %d to %d elements:\n\t%s\n\n",
     $a,
     $b,
-    implode("\n\t", array_map($f, $c->ofA2B($items, $a, $b)))
+    implode("\n\t", array_map($f, $c->ofA2B($items, $a, $b, $sort)))
 );
 
-// All Combinations of $a1, $a2 and $a3
-$a1 = ['A1', 'A2', ];
-$a2 = ['B1', 'B2', 'B3', ];
-$a3 = ['C1', 'C2', 'C3', 'C4', ];
+// All Combinations of $a1, $a2 and $a3: does not support sorting
+$a1 = [ 'A1', 'A2', ];
+$a2 = [ 'B1', 'B2', 'B3', ];
+$a3 = [ 'C1', 'C2', 'C3', 'C4', ];
 
 echo "All Combinations of multiple arrays:\n";
 echo sprintf("\tArray1: (%s)\n", implode(', ', $a1));
