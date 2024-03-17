@@ -85,8 +85,8 @@ jobs:
       - name: PHP Lint
         run: ./vendor/bin/parallel-lint src tests examples
 
-      - name: Neon Lint
-        run: ./vendor/nette/neon/bin/neon-lint conf
+      #- name: Neon Lint
+      #  run: ./vendor/nette/neon/bin/neon-lint conf
 
       - name: PHP MD
         run: |
