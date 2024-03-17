@@ -1,55 +1,72 @@
 # PHP-Combination
 
-A simple PHP library to make combinations from array elements.
+## 1. Features
 
-## Contents
-- [Requirements](#requirements)
-- [Installation](#installation)
-- [Classes](#classes)
-  - [Combination](#combination)
-  - [CombinationGenerator](#combinationgenerator)
-  - [How to choose the class to use](#how-to-choose-the-class-to-use)
-- [Methods](#methods)
-- [Limit on the Number of Array Elements](#limit-on-the-number-of-array-elements)
-- [Usage](#usage)
-  - [Using Combination](#using-combination)
-  - [Using Combination with Sorting](#using-combination-with-sorting)
-  - [Using CombinationGenerator](#using-combinationgenerator)
-- [Example](#example)
-- [LICENSE](#license)
+`PHP-Combination` is a simple PHP library to make combinations from array elements.
 
-## Requirements
+`PHP-Combination` can:
 
-- PHP 8.0.0 (CLI) or later
+- create `all` combinations
+- `sort` combinations
+- create `pairs`
+- create all combinations `of N` elements
+- create all combinations `of A 2 B` elements
+
+
+## 2. Contents
+- [1. Features](#1-features)
+- 2\. Contents
+- [3. Requirements](#3-requirements)
+- [4. Installation](#4-installation)
+- [5. Classes](#5-classes)
+  - [5.1. Combination](#51-combination)
+  - [5.2. CombinationGenerator](#52-combinationgenerator)
+  - [5.3. How to choose the class to use](#53-how-to-choose-the-class-to-use)
+- [6. Methods](#6-methods)
+- [7. Limit on the Number of Array Elements](#7-limit-on-the-number-of-array-elements)
+- [8. Usage](#8-usage)
+  - [8.1. Basic Usage](#81-basic-usage)
+    - [8.1.1. Combination](#811-combination)
+    - [8.1.2. CombinationGenerator](#812-combinationgenerator)
+  - [8.2. Using Combination](#82-using-combination)
+  - [8.3. Using Combination with Sorting](#83-using-combination-with-sorting)
+  - [8.4. Using CombinationGenerator](#84-using-combinationgenerator)
+  - [8.5. Using In PHPUnit](#85-using-in-phpunit)
+- [9. Examples](#9-examples)
+- [10. LICENSE](#10-license)
+
+## 3. Requirements
+
+- PHP 8.1 or later
 - Composer
 
-## Installation
+## 4. Installation
 
 ```bash
 composer require macocci7/php-combination
 ```
 
-## Classes
+## 5. Classes
 
 There're 2 types of classes for the same methods.
 
-### Combination
+### 5.1. Combination
 
 ```php
 Macocci7\PhpCombination\Combination
 ```
 
-This class returns the result as type of array.
+This class returns the result as type of `array`.
 
-### CombinationGenerator
+### 5.2. CombinationGenerator
 
 ```php
 Macocci7\PhpCombination\CombinationGenerator
 ```
 
-This class returns the result as type of Generator object.
+This class returns the result as type of `Generator` object.
 
-### How to choose the class to use
+### 5.3. How to choose the class to use
 
 There might be 3 factors.
 
@@ -88,13 +105,15 @@ There might be 3 factors.
 
 In some cases, `CombinationGenerator` takes several times longer than `Combination`.
 
-But, `Combination` mostly might exceed memory limit when using param array with more than 22 elements.
+But, `Combination` mostly might exceed memory limit (128MB) when using param array with more than 22 elements.
 
 Use `CombinationGenerator` then.
 
 It will never exceeds the memory limit, and certanily complete the task.
 
-## Methods
+## 6. Methods
+
+### 6.1. Macocci7\PhpCombination\Combination
 
 - `all()`: returns all combinations of the param
 - `pairs()`: returns all pairs of the param
@@ -104,7 +123,14 @@ It will never exceeds the memory limit, and certanily complete the task.
 
   `fromArrays()` is only implemented in `Combination` class.
 
-## Limit on the Number of Array Elements
+### 6.2. Macocci7\PhpCombination\CombinationGenenrator
+
+- `all()`: returns all combinations of the param
+- `pairs()`: returns all pairs of the param
+- `ofN()`: returns all combinations of N elements of the param
+- `ofA2B()`: returns all combinations of A to B elements of the param
+
+## 7. Limit on the Number of Array Elements
 
 The number of array elements of the param:
 - 32bit-system: 30 elements
@@ -118,9 +144,89 @@ The max index number of array in PHP equals to `PHP_INT_MAX`.
 - 32bit-system: 2147483647 === 2 ** 31 - 1
 - 64bit-system: 9223372036854775807 === 2 ** 63 - 1
 
-## Usage
+## 8. Usage
 
-### Using Combination
+- [8.1. Basic Usage](#81-basic-usage)
+    - [8.1.1. Combination](#811-combination)
+    - [8.1.2. CombinationGenerator](#812-combinationgenerator)
+- [8.2. Using Combination](#82-using-combination)
+- [8.3. Using Combination with Sorting](#83-using-combination-with-sorting)
+- [8.4. Using CombinationGenerator](#84-using-combinationgenerator)
+- [8.5. Using In PHPUnit](#85-using-in-phpunit)
+
+### 8.1. Basic Usage
+
+#### 8.1.1 Combination
+
+- PHP:
+
+    ```php
+    <?php
+
+    require_once('../vendor/autoload.php');
+
+    use Macocci7\PhpCombination\Combination;
+
+    $c = new Combination();
+    $items = [ 'A', 'B', 'C', ];
+
+    foreach ($c->all($items) as $index => $item) {
+        echo sprintf(
+            "%d: (%s)\n",
+            $index,
+            implode(', ', $item)
+        );
+    }
+    ```
+
+- Result:
+
+    ```
+    0: (A, B, C)
+    1: (A, B)
+    2: (A, C)
+    3: (A)
+    4: (B, C)
+    5: (B)
+    6: (C)
+    ```
+
+#### 8.1.2. CombinationGenerator
+
+- PHP:
+
+    ```php
+    <?php
+
+    require_once('../vendor/autoload.php');
+
+    use Macocci7\PhpCombination\CombinationGenerator;
+
+    $c = new CombinationGenerator();
+    $items = [ 'A', 'B', 'C', ];
+
+    foreach ($c->all($items) as $index => $item) {
+        echo sprintf(
+            "%d: (%s)\n",
+            $index,
+            implode(', ', $item)
+        );
+    }
+    ```
+
+- Result:
+
+    ```
+    0: (A, B, C)
+    1: (A, B)
+    2: (A, C)
+    3: (A)
+    4: (B, C)
+    5: (B)
+    6: (C)
+    ```
+
+### 8.2. Using Combination
 
 - PHP:
 
@@ -302,7 +408,7 @@ The max index number of array in PHP equals to `PHP_INT_MAX`.
         24: (A2, B3, C4)
     ```
 
-### Using Combination with Sorting
+### 8.3. Using Combination with Sorting
 
 - PHP:
 
@@ -487,7 +593,7 @@ The max index number of array in PHP equals to `PHP_INT_MAX`.
         24: (A2, B3, C4)
     ```
 
-### Using CombinationGenerator
+### 8.4. Using CombinationGenerator
 
 - PHP:
 
@@ -626,13 +732,191 @@ The max index number of array in PHP equals to `PHP_INT_MAX`.
 
     ```
 
-## Example
+### 8.5. Using In PHPUnit
 
-- [UseCombination.php](example/UseCombination.php) >> results in [UseCombination.txt](example/UseCombination.txt)
-- [UseCombinationSort.php](example/UseCombinationSort.php) >> results in [UseCombinationSort.txt](example/UseCombinationSort.txt)
-- [UseCombinationGenerator.php](example/UseCombinationGenerator.php) >> results in [UseCombinationGenerator.txt](example/UseCombinationGenerator.txt)
+For Example, `fromArray()` method is useful for testing with data provider.
 
-## LICENSE
+Here's an example of testing the class for ordering products,
+
+with patterns of `size`, `color` and `amount`.
+
+- Install MONOLOG: Just for this example
+
+    ```bash
+    composer require monolog/monolog
+    ```
+
+- PHP: Class to be tested
+
+    ```php
+    <?php
+
+    namespace Macocci7\PhpCombination\Examples;
+
+    use Monolog\Level;
+    use Monolog\Logger;
+    use Monolog\Handler\StreamHandler;
+
+    class UseInPhpUnit
+    {
+        private Logger $log;
+
+        public function __construct()
+        {
+            $this->log = new Logger('UseInPhpUnit');
+            $this->log->pushHandler(
+                new StreamHandler(__DIR__ . '/UseInPhpUnit.log', Level::Debug)
+            );
+        }
+
+        public function order(
+            int $productId,
+            string $size,
+            string $color,
+            int $amount
+        ) {
+            $this->log->info('Adding a new order', [
+                'productId' => $productId,
+                'size' => $size,
+                'color' => $color,
+                'amount' => $amount,
+            ]);
+            return true;
+        }
+    }
+    ```
+
+- PHP: Test Class
+
+    ```php
+    <?php
+
+    declare(strict_types=1);
+
+    namespace Macocci7\PhpCombination;
+
+    require_once('../vendor/autoload.php');
+    require_once('./UseInPhpUnit.class.php');
+
+    use PHPUnit\Framework\TestCase;
+    use Macocci7\PhpCombination\Examples\UseInPhpUnit;
+    use Macocci7\PhpCombination\Combination;
+
+    final class UseInPhpUnitTest extends TestCase
+    {
+        public static function provide_order_can_order_correctly(): array
+        {
+            $products = [ 1101, 1102, ];
+            $sizes = [ 'S', 'M', 'L', ];
+            $colors = [ 'White', 'Black', ];
+            $amount = [ 1, 2, ];
+            $c = new Combination();
+            $data = [];
+            foreach (
+                $c->fromArrays([$products, $sizes, $colors, $amount]) as $e
+            ) {
+                $data[implode(', ', $e)] = $e;
+            }
+            return $data;
+        }
+
+        /**
+        * @dataProvider provide_order_can_order_correctly
+        */
+        public function test_order_can_order_correctly(
+            int $productId,
+            string $size,
+            string $color,
+            int $amount
+        ): void {
+            $u = new UseInPhpUnit();
+            $this->assertTrue($u->order(
+                $productId,
+                $size,
+                $color,
+                $amount
+            ));
+        }
+    }
+    ```
+
+- Result: STDOUT
+
+    ```bash
+    examples$ ../vendor/bin/phpunit ./UseInPhpUnitTest.php --color auto --testdox
+    PHPUnit 9.6.17 by Sebastian Bergmann and contributors.
+
+    Use In Php Unit (Macocci7\PhpCombination\UseInPhpUnit)
+    ✔ Order can order correctly with 1101,·S,·White,·1
+    ✔ Order can order correctly with 1101,·S,·White,·2
+    ✔ Order can order correctly with 1101,·S,·Black,·1
+    ✔ Order can order correctly with 1101,·S,·Black,·2
+    ✔ Order can order correctly with 1101,·M,·White,·1
+    ✔ Order can order correctly with 1101,·M,·White,·2
+    ✔ Order can order correctly with 1101,·M,·Black,·1
+    ✔ Order can order correctly with 1101,·M,·Black,·2
+    ✔ Order can order correctly with 1101,·L,·White,·1
+    ✔ Order can order correctly with 1101,·L,·White,·2
+    ✔ Order can order correctly with 1101,·L,·Black,·1
+    ✔ Order can order correctly with 1101,·L,·Black,·2
+    ✔ Order can order correctly with 1102,·S,·White,·1
+    ✔ Order can order correctly with 1102,·S,·White,·2
+    ✔ Order can order correctly with 1102,·S,·Black,·1
+    ✔ Order can order correctly with 1102,·S,·Black,·2
+    ✔ Order can order correctly with 1102,·M,·White,·1
+    ✔ Order can order correctly with 1102,·M,·White,·2
+    ✔ Order can order correctly with 1102,·M,·Black,·1
+    ✔ Order can order correctly with 1102,·M,·Black,·2
+    ✔ Order can order correctly with 1102,·L,·White,·1
+    ✔ Order can order correctly with 1102,·L,·White,·2
+    ✔ Order can order correctly with 1102,·L,·Black,·1
+    ✔ Order can order correctly with 1102,·L,·Black,·2
+
+    Time: 00:00.040, Memory: 6.00 MB
+
+    OK (24 tests, 24 assertions)
+    examples$
+    ```
+
+- Result: LOG
+
+    ```log
+    [2024-03-17T04:52:17.411553+00:00] UseInPhpUnit.INFO: Adding a new order {"productId":1101,"size":"S","color":"White","amount":1} []
+    [2024-03-17T04:52:17.416904+00:00] UseInPhpUnit.INFO: Adding a new order {"productId":1101,"size":"S","color":"White","amount":2} []
+    [2024-03-17T04:52:17.417719+00:00] UseInPhpUnit.INFO: Adding a new order {"productId":1101,"size":"S","color":"Black","amount":1} []
+    [2024-03-17T04:52:17.418655+00:00] UseInPhpUnit.INFO: Adding a new order {"productId":1101,"size":"S","color":"Black","amount":2} []
+    [2024-03-17T04:52:17.419389+00:00] UseInPhpUnit.INFO: Adding a new order {"productId":1101,"size":"M","color":"White","amount":1} []
+    [2024-03-17T04:52:17.420132+00:00] UseInPhpUnit.INFO: Adding a new order {"productId":1101,"size":"M","color":"White","amount":2} []
+    [2024-03-17T04:52:17.421430+00:00] UseInPhpUnit.INFO: Adding a new order {"productId":1101,"size":"M","color":"Black","amount":1} []
+    [2024-03-17T04:52:17.422601+00:00] UseInPhpUnit.INFO: Adding a new order {"productId":1101,"size":"M","color":"Black","amount":2} []
+    [2024-03-17T04:52:17.423908+00:00] UseInPhpUnit.INFO: Adding a new order {"productId":1101,"size":"L","color":"White","amount":1} []
+    [2024-03-17T04:52:17.424508+00:00] UseInPhpUnit.INFO: Adding a new order {"productId":1101,"size":"L","color":"White","amount":2} []
+    [2024-03-17T04:52:17.425057+00:00] UseInPhpUnit.INFO: Adding a new order {"productId":1101,"size":"L","color":"Black","amount":1} []
+    [2024-03-17T04:52:17.425742+00:00] UseInPhpUnit.INFO: Adding a new order {"productId":1101,"size":"L","color":"Black","amount":2} []
+    [2024-03-17T04:52:17.426767+00:00] UseInPhpUnit.INFO: Adding a new order {"productId":1102,"size":"S","color":"White","amount":1} []
+    [2024-03-17T04:52:17.427574+00:00] UseInPhpUnit.INFO: Adding a new order {"productId":1102,"size":"S","color":"White","amount":2} []
+    [2024-03-17T04:52:17.428547+00:00] UseInPhpUnit.INFO: Adding a new order {"productId":1102,"size":"S","color":"Black","amount":1} []
+    [2024-03-17T04:52:17.429686+00:00] UseInPhpUnit.INFO: Adding a new order {"productId":1102,"size":"S","color":"Black","amount":2} []
+    [2024-03-17T04:52:17.430336+00:00] UseInPhpUnit.INFO: Adding a new order {"productId":1102,"size":"M","color":"White","amount":1} []
+    [2024-03-17T04:52:17.430916+00:00] UseInPhpUnit.INFO: Adding a new order {"productId":1102,"size":"M","color":"White","amount":2} []
+    [2024-03-17T04:52:17.431495+00:00] UseInPhpUnit.INFO: Adding a new order {"productId":1102,"size":"M","color":"Black","amount":1} []
+    [2024-03-17T04:52:17.431949+00:00] UseInPhpUnit.INFO: Adding a new order {"productId":1102,"size":"M","color":"Black","amount":2} []
+    [2024-03-17T04:52:17.432371+00:00] UseInPhpUnit.INFO: Adding a new order {"productId":1102,"size":"L","color":"White","amount":1} []
+    [2024-03-17T04:52:17.432744+00:00] UseInPhpUnit.INFO: Adding a new order {"productId":1102,"size":"L","color":"White","amount":2} []
+    [2024-03-17T04:52:17.433138+00:00] UseInPhpUnit.INFO: Adding a new order {"productId":1102,"size":"L","color":"Black","amount":1} []
+    [2024-03-17T04:52:17.433508+00:00] UseInPhpUnit.INFO: Adding a new order {"productId":1102,"size":"L","color":"Black","amount":2} []
+    ```
+
+## 9. Examples
+
+- [BasicUsage.php](examples/BasiUsage.php) >> results in [BasicUsage.txt](examples/BasicUsage.txt)
+- [BasicUsageGenerator.php](examples/BasicUsageGenerator.php) >> results in [BasicUsageGenerator.txt](examples/BasicUsageGenerator.txt)
+- [UseCombination.php](examples/UseCombination.php) >> results in [UseCombination.txt](examples/UseCombination.txt)
+- [UseCombinationSort.php](examples/UseCombinationSort.php) >> results in [UseCombinationSort.txt](examples/UseCombinationSort.txt)
+- [UseCombinationGenerator.php](examples/UseCombinationGenerator.php) >> results in [UseCombinationGenerator.txt](examples/UseCombinationGenerator.txt)
+- [UseInPhpUnit.class.php](examples/UseInPhpUnit.class.php) & [UseInPhpUnitTest.php](examples/UseInPhpUnitTest.php) >> results in [UseInPhpUnit.log](examples/UseInPhpUnit.log)
+
+## 10. LICENSE
 
 [MIT](LICENSE)
 
@@ -640,6 +924,6 @@ The max index number of array in PHP equals to `PHP_INT_MAX`.
 
 *Document Created: 2023/11/11*
 
-*Document Updated: 2023/12/18*
+*Document Updated: 2024/03/17*
 
-Copyright 2023 macocci7
+Copyright 2023 - 2024 macocci7

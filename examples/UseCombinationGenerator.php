@@ -8,7 +8,7 @@ use Macocci7\PhpCombination\CombinationGenerator;
 $c = new CombinationGenerator();
 
 // All Items
-$items = ['A', 'B', 'C', 'D', 'E', ];
+$items = [ 'A', 'B', 'C', 'D', 'E', ];
 echo sprintf("All Items:\n\t(%s)\n\n", implode(", ", $items));
 
 // Common Format

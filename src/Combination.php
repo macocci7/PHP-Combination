@@ -4,20 +4,25 @@ namespace Macocci7\PhpCombination;
 
 use Macocci7\PhpCombination\Util;
 
+/**
+ * Class for generating combinations.
+ * @author  macocci7 <macocci7@yahoo.co.jp>
+ * @license MIT
+ */
 class Combination
 {
     /**
-     * returns all combinations
-     * @param   array   $items
-     * @param   bool    $sort = false
-     * @return  array
+     * returns all combinations from single array.
+     * returns sorted array when the second param is set as true.
+     * @param   array<int, int|float|string>    $items
+     * @param   bool                            $sort = false
+     * @return  array<int, array<int, int|float|string>>
+     * @thrown  \Exception
      */
     public function all(array $items, bool $sort = false)
     {
         $count = count($items);
-        if (0 === $count) {
-            throw new \Exception("Empty array set.");
-        }
+        Util::validateArray($items);
         if ($count >= Util::systemBit() - 1) {
             throw new \Exception("Too many elements.");
         }
@@ -42,11 +47,12 @@ class Combination
 
     /**
      * returns all pairs
-     * @param   array   $items
-     * @return  array
+     * @param   array<int, int|float|string>    $items
+     * @return  array<int, array<int, int|float|string>>
      */
     public function pairs(array $items)
     {
+        Util::validateArray($items);
         if (count($items) < 2) {
             throw new \Exception("Too few elements.");
         }
@@ -62,10 +68,11 @@ class Combination
 
     /**
      * returns all combinations of $n elements
-     * @param   array   $items
-     * @param   int     $n
-     * @param   bool    $sort = false
-     * @return  array
+     * @param   array<int, int|float|string>    $items
+     * @param   int                             $n
+     * @param   bool                            $sort = false
+     * @return  array<int, array<int, int|float|string>>
+     * @thrown  \Exception
      */
     public function ofN(array $items, int $n, bool $sort = false)
     {
@@ -73,6 +80,7 @@ class Combination
          * ex) $items = [1,2,3,4], $n = 3
          * ==> [1,2,3], [1,2,4], [1,3,4], [2,3,4]
          */
+        Util::validateArray($items);
         if ($n < 1 || count($items) < $n) {
             throw new \Exception("Invalid number specified.");
         }
@@ -87,14 +95,16 @@ class Combination
 
     /**
      * returns all combinations of $a to $b elements
-     * @param   array   $items
-     * @param   int     $a
-     * @param   int     $b
-     * @param   bool    $sort = false
-     * @return  array
+     * @param   array<int, int|float|string>    $items
+     * @param   int                             $a
+     * @param   int                             $b
+     * @param   bool                            $sort = false
+     * @return  array<int, array<int, int|float|string>>
+     * @thrown  \Exception
      */
     public function ofA2B(array $items, int $a, int $b, bool $sort = false)
     {
+        Util::validateArray($items);
         if ($a < 1 || $b < 1) {
             throw new \Exception("Invalid number specified.");
         }
@@ -116,51 +126,19 @@ class Combination
     }
 
     /**
-     * validates the param
-     * @param   array   $arrays
-     * @return  void
-     * @thrown  \Exception
-     */
-    public function validateArrays(array $arrays): void
-    {
-        // check if empty
-        if (empty($arrays)) {
-            throw new \Exception("Empty array set.");
-        }
-        // check types
-        $counts = [];
-        foreach ($arrays as $index => $array) {
-            if (!is_array($array)) {
-                $message = sprintf("index[%d]: Array expected.", $index);
-                throw new \Exception($message);
-            }
-            $counts[] = count($array);
-        }
-        // check number of combination patterns
-        $patterns = 1;
-        foreach ($counts as $count) {
-            $patterns *= $count;
-        }
-        if (is_float($patterns)) {
-            $message = $patterns . " patterns found (over limit).";
-            throw new \Exception($message);
-        }
-    }
-
-    /**
      * returns all combinations from arrays
-     * @param   array   $arrays     each elements must be array.
-     * @return  array
+     * @param   list<array<int, int|float|string>>  $arrays     each elements must be array.
+     * @return  array<int, array<int, int|float|string>>
      * @thrown  \Exception
      */
     public function fromArrays(array $arrays): array
     {
         // validate
-        $this->validateArrays($arrays);
+        Util::validateArrays($arrays);
         // initialize
         $combinations = [];
         // make combinations
-        foreach ($arrays[0] as $i => $a) {
+        foreach ($arrays[0] as $a) {
             $this->makeCombinationsRecursive([$a], $arrays, $combinations);
         }
         return $combinations;
@@ -168,9 +146,9 @@ class Combination
 
     /**
      * makes combinations recusively
-     * @param   array   $a
-     * @param   array   &$arrays
-     * @param   array   &$combinations
+     * @param   array<int, int|float|string>        $a
+     * @param   list<array<int, int|float|string>>  &$arrays
+     * @param   array<int, int|float|string>        &$combinations
      * @return  void
      */
     private function makeCombinationsRecursive($a, &$arrays, &$combinations)
