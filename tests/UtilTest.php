@@ -6,6 +6,7 @@ namespace Macocci7\PhpCombination;
 
 require('vendor/autoload.php');
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Macocci7\PhpCombination\Util;
 
@@ -28,9 +29,7 @@ final class UtilTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provide_validateArray_can_throw_exception_with_invalid_param
-     */
+    #[DataProvider('provide_validateArray_can_throw_exception_with_invalid_param')]
     public function test_validateArray_can_throw_exception_with_invalid_param(array $array, string $message): void
     {
         $this->expectException(\Exception::class);
@@ -54,9 +53,7 @@ final class UtilTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provide_validateArray_can_validate_array_correctly
-     */
+    #[DataProvider('provide_validateArray_can_validate_array_correctly')]
     public function test_validateArray_can_validate_array_correctly(array $array): void
     {
         $this->assertTrue(Util::validateArray($array));
@@ -71,9 +68,7 @@ final class UtilTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provide_validateArrays_can_throw_exception_with_invalid_param
-     */
+    #[DataProvider('provide_validateArrays_can_throw_exception_with_invalid_param')]
     public function test_validateArrays_can_throw_exception_with_invalid_param(array $arrays, string $message): void
     {
         $this->expectException(\Exception::class);
@@ -92,9 +87,7 @@ final class UtilTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provide_validateArrays_can_return_true_correctly
-     */
+    #[DataProvider('provide_validateArrays_can_return_true_correctly')]
     public function test_validateArrays_can_return_true_correctly(array $arrays): void
     {
         $this->assertTrue(Util::validateArrays($arrays));

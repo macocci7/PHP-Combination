@@ -105,9 +105,9 @@ There might be 3 factors.
 
 In some cases, `CombinationGenerator` takes several times longer than `Combination`.
 
-But, `Combination` mostly might exceed memory limit (128MB) when using param array with more than 22 elements.
+However, using an array with many elements as an argument can cause `Combination` to exceed memory limits.
 
-Use `CombinationGenerator` then.
+In that case, use `CombinationGenerator`.
 
 It will never exceeds the memory limit, and certanily complete the task.
 
@@ -924,6 +924,6 @@ with patterns of `size`, `color` and `amount`.
 
 *Document Created: 2023/11/11*
 
-*Document Updated: 2024/03/17*
+*Document Updated: 2024/04/17*
 
 Copyright 2023 - 2024 macocci7

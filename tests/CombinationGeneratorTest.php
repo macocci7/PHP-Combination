@@ -6,6 +6,7 @@ namespace Macocci7\PhpCombination;
 
 require('vendor/autoload.php');
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Macocci7\PhpCombination\Util;
 use Macocci7\PhpCombination\CombinationGenerator;
@@ -36,9 +37,7 @@ final class CombinationGeneratorTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provide_all_can_return_all_combinations_correctly
-     */
+    #[DataProvider('provide_all_can_return_all_combinations_correctly')]
     public function test_all_can_return_all_combinations_correctly(array $items, array $expect): void
     {
         $c = new CombinationGenerator();
@@ -54,9 +53,7 @@ final class CombinationGeneratorTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provide_pairs_can_throw_exception_with_invalid_param
-     */
+    #[DataProvider('provide_pairs_can_throw_exception_with_invalid_param')]
     public function test_pairs_can_throw_exception_with_invalid_param(array $items): void
     {
         $c = new CombinationGenerator();
@@ -76,9 +73,7 @@ final class CombinationGeneratorTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provide_pairs_can_return_all_pairs_correctly
-     */
+    #[DataProvider('provide_pairs_can_return_all_pairs_correctly')]
     public function test_pairs_can_return_all_pairs_correctly(array $items, array $expect): void
     {
         $c = new CombinationGenerator();
@@ -101,9 +96,7 @@ final class CombinationGeneratorTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provide_ofN_can_throw_exception_with_invalid_param
-     */
+    #[DataProvider('provide_ofN_can_throw_exception_with_invalid_param')]
     public function test_ofN_can_throw_exception_with_invalid_param(array $items, int $n): void
     {
         $c = new CombinationGenerator();
@@ -126,9 +119,7 @@ final class CombinationGeneratorTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provide_ofN_can_return_all_combinations_of_n_elements_correctly
-     */
+    #[DataProvider('provide_ofN_can_return_all_combinations_of_n_elements_correctly')]
     public function test_ofN_can_return_all_combinations_of_n_elements_correctly(array $items, int $n, array $expect): void
     {
         $c = new CombinationGenerator();
@@ -152,9 +143,7 @@ final class CombinationGeneratorTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provide_ofA2B_can_throw_exception_with_invalid_params
-     */
+    #[DataProvider('provide_ofA2B_can_throw_exception_with_invalid_params')]
     public function test_ofA2B_can_throw_exception_with_invalid_params(array $items, int $a, int $b, string $message): void
     {
         $c = new CombinationGenerator();
@@ -173,9 +162,7 @@ final class CombinationGeneratorTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provide_ofA2B_can_return_all_combinations_of_a_to_b_elements_correctly
-     */
+    #[DataProvider('provide_ofA2B_can_return_all_combinations_of_a_to_b_elements_correctly')]
     public function test_ofA2B_can_return_all_combinations_of_a_to_b_elements_correctly(array $items, int $a, int $b, array $expect): void
     {
         $c = new CombinationGenerator();
