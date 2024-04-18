@@ -109,7 +109,7 @@ However, using an array with many elements as an argument can cause `Combination
 
 In that case, use `CombinationGenerator`.
 
-It will never exceeds the memory limit, and certanily complete the task.
+It will never exceeds the memory limit, and certainly complete the task.
 
 ## 6. Methods
 
@@ -734,16 +734,16 @@ The max index number of array in PHP equals to `PHP_INT_MAX`.
 
 ### 8.5. Using In PHPUnit
 
-For Example, `fromArray()` method is useful for testing with data provider.
+For Example, `fromArray()` method can be quite useful for testing with data providers of PHPUnit.
 
-Here's an example of testing the class for ordering products,
+Here's an example for testing the class for ordering products,
 
 with patterns of `size`, `color` and `amount`.
 
-- Install MONOLOG: Just for this example
+- Install MONOLOG before testing: (Just for this example)
 
     ```bash
-    composer require monolog/monolog
+    composer require --dev monolog/monolog
     ```
 
 - PHP: Class to be tested
@@ -795,9 +795,10 @@ with patterns of `size`, `color` and `amount`.
 
     namespace Macocci7\PhpCombination;
 
-    require_once('../vendor/autoload.php');
-    require_once('./UseInPhpUnit.class.php');
+    require_once __DIR__ . '/../vendor/autoload.php';
+    require_once __DIR__ . '/UseInPhpUnit.class.php';
 
+    use PHPUnit\Framework\Attributes\DataProvider;
     use PHPUnit\Framework\TestCase;
     use Macocci7\PhpCombination\Examples\UseInPhpUnit;
     use Macocci7\PhpCombination\Combination;
@@ -820,9 +821,7 @@ with patterns of `size`, `color` and `amount`.
             return $data;
         }
 
-        /**
-        * @dataProvider provide_order_can_order_correctly
-        */
+        #[DataProvider('provide_order_can_order_correctly')]
         public function test_order_can_order_correctly(
             int $productId,
             string $size,
@@ -843,8 +842,14 @@ with patterns of `size`, `color` and `amount`.
 - Result: STDOUT
 
     ```bash
-    examples$ ../vendor/bin/phpunit ./UseInPhpUnitTest.php --color auto --testdox
-    PHPUnit 9.6.17 by Sebastian Bergmann and contributors.
+    $ vendor/bin/phpunit ./examples/UseInPhpUnitTest.php --color=auto --testdox
+    PHPUnit 10.5.18 by Sebastian Bergmann and contributors.
+
+    Runtime:       PHP 8.2.13
+
+    ........................                                          24 / 24 (100%)
+
+    Time: 00:00.076, Memory: 8.00 MB
 
     Use In Php Unit (Macocci7\PhpCombination\UseInPhpUnit)
     ✔ Order can order correctly with 1101,·S,·White,·1
@@ -872,39 +877,36 @@ with patterns of `size`, `color` and `amount`.
     ✔ Order can order correctly with 1102,·L,·Black,·1
     ✔ Order can order correctly with 1102,·L,·Black,·2
 
-    Time: 00:00.040, Memory: 6.00 MB
-
     OK (24 tests, 24 assertions)
-    examples$
     ```
 
 - Result: LOG
 
     ```log
-    [2024-03-17T04:52:17.411553+00:00] UseInPhpUnit.INFO: Adding a new order {"productId":1101,"size":"S","color":"White","amount":1} []
-    [2024-03-17T04:52:17.416904+00:00] UseInPhpUnit.INFO: Adding a new order {"productId":1101,"size":"S","color":"White","amount":2} []
-    [2024-03-17T04:52:17.417719+00:00] UseInPhpUnit.INFO: Adding a new order {"productId":1101,"size":"S","color":"Black","amount":1} []
-    [2024-03-17T04:52:17.418655+00:00] UseInPhpUnit.INFO: Adding a new order {"productId":1101,"size":"S","color":"Black","amount":2} []
-    [2024-03-17T04:52:17.419389+00:00] UseInPhpUnit.INFO: Adding a new order {"productId":1101,"size":"M","color":"White","amount":1} []
-    [2024-03-17T04:52:17.420132+00:00] UseInPhpUnit.INFO: Adding a new order {"productId":1101,"size":"M","color":"White","amount":2} []
-    [2024-03-17T04:52:17.421430+00:00] UseInPhpUnit.INFO: Adding a new order {"productId":1101,"size":"M","color":"Black","amount":1} []
-    [2024-03-17T04:52:17.422601+00:00] UseInPhpUnit.INFO: Adding a new order {"productId":1101,"size":"M","color":"Black","amount":2} []
-    [2024-03-17T04:52:17.423908+00:00] UseInPhpUnit.INFO: Adding a new order {"productId":1101,"size":"L","color":"White","amount":1} []
-    [2024-03-17T04:52:17.424508+00:00] UseInPhpUnit.INFO: Adding a new order {"productId":1101,"size":"L","color":"White","amount":2} []
-    [2024-03-17T04:52:17.425057+00:00] UseInPhpUnit.INFO: Adding a new order {"productId":1101,"size":"L","color":"Black","amount":1} []
-    [2024-03-17T04:52:17.425742+00:00] UseInPhpUnit.INFO: Adding a new order {"productId":1101,"size":"L","color":"Black","amount":2} []
-    [2024-03-17T04:52:17.426767+00:00] UseInPhpUnit.INFO: Adding a new order {"productId":1102,"size":"S","color":"White","amount":1} []
-    [2024-03-17T04:52:17.427574+00:00] UseInPhpUnit.INFO: Adding a new order {"productId":1102,"size":"S","color":"White","amount":2} []
-    [2024-03-17T04:52:17.428547+00:00] UseInPhpUnit.INFO: Adding a new order {"productId":1102,"size":"S","color":"Black","amount":1} []
-    [2024-03-17T04:52:17.429686+00:00] UseInPhpUnit.INFO: Adding a new order {"productId":1102,"size":"S","color":"Black","amount":2} []
-    [2024-03-17T04:52:17.430336+00:00] UseInPhpUnit.INFO: Adding a new order {"productId":1102,"size":"M","color":"White","amount":1} []
-    [2024-03-17T04:52:17.430916+00:00] UseInPhpUnit.INFO: Adding a new order {"productId":1102,"size":"M","color":"White","amount":2} []
-    [2024-03-17T04:52:17.431495+00:00] UseInPhpUnit.INFO: Adding a new order {"productId":1102,"size":"M","color":"Black","amount":1} []
-    [2024-03-17T04:52:17.431949+00:00] UseInPhpUnit.INFO: Adding a new order {"productId":1102,"size":"M","color":"Black","amount":2} []
-    [2024-03-17T04:52:17.432371+00:00] UseInPhpUnit.INFO: Adding a new order {"productId":1102,"size":"L","color":"White","amount":1} []
-    [2024-03-17T04:52:17.432744+00:00] UseInPhpUnit.INFO: Adding a new order {"productId":1102,"size":"L","color":"White","amount":2} []
-    [2024-03-17T04:52:17.433138+00:00] UseInPhpUnit.INFO: Adding a new order {"productId":1102,"size":"L","color":"Black","amount":1} []
-    [2024-03-17T04:52:17.433508+00:00] UseInPhpUnit.INFO: Adding a new order {"productId":1102,"size":"L","color":"Black","amount":2} []
+    [2024-04-18T00:25:01.221482+00:00] UseInPhpUnit.INFO: Adding a new order {"productId":1101,"size":"S","color":"White","amount":1} []
+    [2024-04-18T00:25:01.237957+00:00] UseInPhpUnit.INFO: Adding a new order {"productId":1101,"size":"S","color":"White","amount":2} []
+    [2024-04-18T00:25:01.238915+00:00] UseInPhpUnit.INFO: Adding a new order {"productId":1101,"size":"S","color":"Black","amount":1} []
+    [2024-04-18T00:25:01.239725+00:00] UseInPhpUnit.INFO: Adding a new order {"productId":1101,"size":"S","color":"Black","amount":2} []
+    [2024-04-18T00:25:01.240554+00:00] UseInPhpUnit.INFO: Adding a new order {"productId":1101,"size":"M","color":"White","amount":1} []
+    [2024-04-18T00:25:01.241492+00:00] UseInPhpUnit.INFO: Adding a new order {"productId":1101,"size":"M","color":"White","amount":2} []
+    [2024-04-18T00:25:01.242484+00:00] UseInPhpUnit.INFO: Adding a new order {"productId":1101,"size":"M","color":"Black","amount":1} []
+    [2024-04-18T00:25:01.243489+00:00] UseInPhpUnit.INFO: Adding a new order {"productId":1101,"size":"M","color":"Black","amount":2} []
+    [2024-04-18T00:25:01.247389+00:00] UseInPhpUnit.INFO: Adding a new order {"productId":1101,"size":"L","color":"White","amount":1} []
+    [2024-04-18T00:25:01.248891+00:00] UseInPhpUnit.INFO: Adding a new order {"productId":1101,"size":"L","color":"White","amount":2} []
+    [2024-04-18T00:25:01.250689+00:00] UseInPhpUnit.INFO: Adding a new order {"productId":1101,"size":"L","color":"Black","amount":1} []
+    [2024-04-18T00:25:01.251705+00:00] UseInPhpUnit.INFO: Adding a new order {"productId":1101,"size":"L","color":"Black","amount":2} []
+    [2024-04-18T00:25:01.252559+00:00] UseInPhpUnit.INFO: Adding a new order {"productId":1102,"size":"S","color":"White","amount":1} []
+    [2024-04-18T00:25:01.253453+00:00] UseInPhpUnit.INFO: Adding a new order {"productId":1102,"size":"S","color":"White","amount":2} []
+    [2024-04-18T00:25:01.255659+00:00] UseInPhpUnit.INFO: Adding a new order {"productId":1102,"size":"S","color":"Black","amount":1} []
+    [2024-04-18T00:25:01.257999+00:00] UseInPhpUnit.INFO: Adding a new order {"productId":1102,"size":"S","color":"Black","amount":2} []
+    [2024-04-18T00:25:01.259445+00:00] UseInPhpUnit.INFO: Adding a new order {"productId":1102,"size":"M","color":"White","amount":1} []
+    [2024-04-18T00:25:01.260728+00:00] UseInPhpUnit.INFO: Adding a new order {"productId":1102,"size":"M","color":"White","amount":2} []
+    [2024-04-18T00:25:01.262897+00:00] UseInPhpUnit.INFO: Adding a new order {"productId":1102,"size":"M","color":"Black","amount":1} []
+    [2024-04-18T00:25:01.265152+00:00] UseInPhpUnit.INFO: Adding a new order {"productId":1102,"size":"M","color":"Black","amount":2} []
+    [2024-04-18T00:25:01.266253+00:00] UseInPhpUnit.INFO: Adding a new order {"productId":1102,"size":"L","color":"White","amount":1} []
+    [2024-04-18T00:25:01.267110+00:00] UseInPhpUnit.INFO: Adding a new order {"productId":1102,"size":"L","color":"White","amount":2} []
+    [2024-04-18T00:25:01.267956+00:00] UseInPhpUnit.INFO: Adding a new order {"productId":1102,"size":"L","color":"Black","amount":1} []
+    [2024-04-18T00:25:01.270784+00:00] UseInPhpUnit.INFO: Adding a new order {"productId":1102,"size":"L","color":"Black","amount":2} []
     ```
 
 ## 9. Examples
