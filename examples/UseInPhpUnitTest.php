@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Macocci7\PhpCombination;
 
-require_once('../vendor/autoload.php');
-require_once('./UseInPhpUnit.class.php');
+require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/UseInPhpUnit.class.php';
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Macocci7\PhpCombination\Examples\UseInPhpUnit;
 use Macocci7\PhpCombination\Combination;
@@ -30,8 +31,11 @@ final class UseInPhpUnitTest extends TestCase
     }
 
     /**
+     * PHPDoc for PHPUnit 9.x
      * @dataProvider provide_order_can_order_correctly
      */
+    // Attribute for PHPUnit 10.x or later
+    #[DataProvider('provide_order_can_order_correctly')]
     public function test_order_can_order_correctly(
         int $productId,
         string $size,
