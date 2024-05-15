@@ -3,6 +3,7 @@
 namespace Macocci7\PhpCombination;
 
 use Macocci7\PhpCombination\Util;
+use Macocci7\PhpCombination\CombinationTrait;
 
 /**
  * Class for generating combinations with Generator.
@@ -11,6 +12,8 @@ use Macocci7\PhpCombination\Util;
  */
 class CombinationGenerator
 {
+    use CombinationTrait;
+
     /**
      * returns all combinations
      * @param   array<int, int|float|string>    $items

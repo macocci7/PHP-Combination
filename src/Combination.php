@@ -3,6 +3,7 @@
 namespace Macocci7\PhpCombination;
 
 use Macocci7\PhpCombination\Util;
+use Macocci7\PhpCombination\CombinationTrait;
 
 /**
  * Class for generating combinations.
@@ -11,6 +12,8 @@ use Macocci7\PhpCombination\Util;
  */
 class Combination
 {
+    use CombinationTrait;
+
     /**
      * returns all combinations from single array.
      * returns sorted array when the second param is set as true.
@@ -123,45 +126,5 @@ class Combination
             }
         }
         return $combinations;
-    }
-
-    /**
-     * returns all combinations from arrays
-     * @param   list<array<int, int|float|string>>  $arrays     each elements must be array.
-     * @return  array<int, array<int, int|float|string>>
-     * @thrown  \Exception
-     */
-    public function fromArrays(array $arrays): array
-    {
-        // validate
-        Util::validateArrays($arrays);
-        // initialize
-        $combinations = [];
-        // make combinations
-        foreach ($arrays[0] as $a) {
-            $this->makeCombinationsRecursive([$a], $arrays, $combinations);
-        }
-        return $combinations;
-    }
-
-    /**
-     * makes combinations recusively
-     * @param   array<int, int|float|string>        $a
-     * @param   list<array<int, int|float|string>>  &$arrays
-     * @param   array<int, int|float|string>        &$combinations
-     * @return  void
-     */
-    private function makeCombinationsRecursive($a, &$arrays, &$combinations)
-    {
-        $countA = count($a);
-        if ($countA < count($arrays)) {
-            foreach ($arrays[$countA] as $b) {
-                $c = $a;
-                $c[] = $b;
-                $this->makeCombinationsRecursive($c, $arrays, $combinations);
-            }
-        } else {
-            $combinations[] = $a;
-        }
     }
 }
