@@ -60,8 +60,9 @@ echo sprintf("\tArray2: (%s)\n", implode(', ', $a2));
 echo sprintf("\tArray3: (%s)\n", implode(', ', $a3));
 
 $r = $c->fromArrays([$a1, $a2, $a3, ]);
-$n = strlen((string) count($r));
-echo sprintf("\tThere're %d patterns:\n", count($r));
+$count = count($a1) * count($a2) * count($a3);
+$n = strlen((string) $count);
+echo sprintf("\tThere're %d patterns:\n", $count);
 foreach ($r as $i => $e) {
     echo sprintf("\t%" . $n . "d: (%s)\n", $i + 1, implode(', ', $e));
 }

@@ -168,4 +168,27 @@ final class CombinationGeneratorTest extends TestCase
             $this->assertSame($expect[$i], $e);
         }
     }
+
+    public static function provide_fromArrays_can_return_combinations_correctly(): array
+    {
+        return [
+            "1 element" => ['arrays' => [[1]], 'expect' => [[1]], ],
+            "1 element, 1 element" => ['arrays' => [[1], [2], ], 'expect' => [[1, 2, ]], ],
+            "1 element, 2 elements" => ['arrays' => [[1], [2, 3, ], ], 'expect' => [[1, 2, ], [1, 3, ], ], ],
+            "2 elements, 2 elements" => ['arrays' => [[1, 2, ], [3, 4, ], ], 'expect' => [[1, 3, ], [1, 4, ], [2, 3, ], [2, 4, ], ], ],
+            "2 elements, 2 elements, 2 elements" => ['arrays' => [[1, 2, ], [3, 4, ], [5, 6, ], ], 'expect' => [[1, 3, 5, ], [1, 3, 6, ], [1, 4, 5, ], [1, 4, 6, ], [2, 3, 5, ], [2, 3, 6, ], [2, 4, 5, ], [2, 4, 6, ], ], ],
+        ];
+    }
+
+    #[DataProvider('provide_fromArrays_can_return_combinations_correctly')]
+    public function test_fromArrays_can_return_combinations_correctly(array $arrays, array $expect): void
+    {
+        $c = new CombinationGenerator();
+        $i = 0;
+        foreach ($c->fromArrays($arrays) as $index => $combination) {
+            $this->assertSame($expect[$index], $combination);
+            $i++;
+        }
+        $this->assertSame(count($expect), $i);
+    }
 }

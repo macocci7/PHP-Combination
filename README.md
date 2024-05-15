@@ -12,6 +12,7 @@
 - create all combinations `of N` elements
 - create all combinations `of A 2 B` elements
 - create all combinations between multiple arrays
+- be used in data provider of PHPUnit
 
 ## 2. Contents
 - [1. Features](#1-features)
@@ -119,9 +120,7 @@ It will never exceeds the memory limit, and certainly complete the task.
 - `pairs()`: returns all pairs of the param
 - `ofN()`: returns all combinations of N elements of the param
 - `ofA2B()`: returns all combinations of A to B elements of the param
-- `fromArrays()`: returns all combinations of multiple arrays
-
-  `fromArrays()` is only implemented in `Combination` class.
+- `fromArrays()`: returns all combinations of multiple arrays as an instance of `Iterator`.
 
 ### 6.2. Macocci7\PhpCombination\CombinationGenenrator
 
@@ -129,6 +128,7 @@ It will never exceeds the memory limit, and certainly complete the task.
 - `pairs()`: returns all pairs of the param
 - `ofN()`: returns all combinations of N elements of the param
 - `ofA2B()`: returns all combinations of A to B elements of the param
+- `fromArrays()`: returns all combinations of multiple arrays as an instance of `Iterator`.
 
 ## 7. Limit on the Number of Array Elements
 
@@ -290,8 +290,9 @@ The max index number of array in PHP equals to `PHP_INT_MAX`.
     echo sprintf("\tArray3: (%s)\n", implode(', ', $a3));
 
     $r = $c->fromArrays([$a1, $a2, $a3, ]);
-    $n = strlen((string) count($r));
-    echo sprintf("\tThere're %d patterns:\n", count($r));
+    $count = count($a1) * count($a2) * count($a3);
+    $n = strlen((string) $count);
+    echo sprintf("\tThere're %d patterns:\n", $count);
     foreach ($r as $i => $e) {
         echo sprintf("\t%" . $n . "d: (%s)\n", $i + 1, implode(', ', $e));
     }
@@ -475,8 +476,9 @@ The max index number of array in PHP equals to `PHP_INT_MAX`.
     echo sprintf("\tArray3: (%s)\n", implode(', ', $a3));
 
     $r = $c->fromArrays([$a1, $a2, $a3, ]);
-    $n = strlen((string) count($r));
-    echo sprintf("\tThere're %d patterns:\n", count($r));
+    $count = count($a1) * count($a2) * count($a3);
+    $n = strlen((string) $count);
+    echo sprintf("\tThere're %d patterns:\n", $count);
     foreach ($r as $i => $e) {
         echo sprintf("\t%" . $n . "d: (%s)\n", $i + 1, implode(', ', $e));
     }
@@ -648,6 +650,24 @@ The max index number of array in PHP equals to `PHP_INT_MAX`.
         echo sprintf($fmt, implode(', ', $e));
     }
     echo "\n";
+
+    // All Combinations of $a1, $a2 and $a3
+    $a1 = [ 'A1', 'A2', ];
+    $a2 = [ 'B1', 'B2', 'B3', ];
+    $a3 = [ 'C1', 'C2', 'C3', 'C4', ];
+
+    echo "All Combinations of multiple arrays:\n";
+    echo sprintf("\tArray1: (%s)\n", implode(', ', $a1));
+    echo sprintf("\tArray2: (%s)\n", implode(', ', $a2));
+    echo sprintf("\tArray3: (%s)\n", implode(', ', $a3));
+
+    $r = $c->fromArrays([$a1, $a2, $a3, ]);
+    $count = count($a1) * count($a2) * count($a3);
+    $n = strlen((string) $count);
+    echo sprintf("\tThere're %d patterns:\n", $count);
+    foreach ($r as $i => $e) {
+        echo sprintf("\t%" . $n . "d: (%s)\n", $i + 1, implode(', ', $e));
+    }
     ```
 
 - Result:
@@ -730,6 +750,35 @@ The max index number of array in PHP equals to `PHP_INT_MAX`.
         (B, D, E)
         (C, D, E)
 
+    All Combinations of multiple arrays:
+        Array1: (A1, A2)
+        Array2: (B1, B2, B3)
+        Array3: (C1, C2, C3, C4)
+        There're 24 patterns:
+        1: (A1, B1, C1)
+        2: (A1, B1, C2)
+        3: (A1, B1, C3)
+        4: (A1, B1, C4)
+        5: (A1, B2, C1)
+        6: (A1, B2, C2)
+        7: (A1, B2, C3)
+        8: (A1, B2, C4)
+        9: (A1, B3, C1)
+        10: (A1, B3, C2)
+        11: (A1, B3, C3)
+        12: (A1, B3, C4)
+        13: (A2, B1, C1)
+        14: (A2, B1, C2)
+        15: (A2, B1, C3)
+        16: (A2, B1, C4)
+        17: (A2, B2, C1)
+        18: (A2, B2, C2)
+        19: (A2, B2, C3)
+        20: (A2, B2, C4)
+        21: (A2, B3, C1)
+        22: (A2, B3, C2)
+        23: (A2, B3, C3)
+        24: (A2, B3, C4)
     ```
 
 ### 8.5. Using In PHPUnit
@@ -931,6 +980,6 @@ with patterns of `size`, `color` and `amount`.
 
 *Document Created: 2023/11/11*
 
-*Document Updated: 2024/04/17*
+*Document Updated: 2024/05/15*
 
 Copyright 2023 - 2024 macocci7

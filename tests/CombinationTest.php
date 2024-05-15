@@ -186,6 +186,11 @@ final class CombinationTest extends TestCase
     public function test_fromArrays_can_return_combinations_correctly(array $arrays, array $expect): void
     {
         $c = new Combination();
-        $this->assertSame($expect, $c->fromArrays($arrays));
+        $i = 0;
+        foreach ($c->fromArrays($arrays) as $index => $combination) {
+            $this->assertSame($expect[$index], $combination);
+            $i++;
+        }
+        $this->assertSame(count($expect), $i);
     }
 }
