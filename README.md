@@ -978,8 +978,4 @@ with patterns of `size`, `color` and `amount`.
 
 ***
 
-*Document Created: 2023/11/11*
-
-*Document Updated: 2025/01/04*
-
 Copyright 2023 - 2025 macocci7
