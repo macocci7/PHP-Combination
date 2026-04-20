@@ -10,7 +10,6 @@ trait CombinationTrait
     /**
      * returns all combinations from arrays
      * @param   list<list<mixed>>   $arrays each elements must be array.
-     * @return  CombinationIterator
      * @thrown  \Exception
      */
     public function fromArrays(array $arrays): CombinationIterator

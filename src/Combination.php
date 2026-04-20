@@ -18,11 +18,10 @@ class Combination
      * returns all combinations from single array.
      * returns sorted array when the second param is set as true.
      * @param   array<int, int|float|string>    $items
-     * @param   bool                            $sort = false
      * @return  array<int, array<int, int|float|string>>
      * @thrown  \Exception
      */
-    public function all(array $items, bool $sort = false)
+    public function all(array $items, bool $sort = false): array
     {
         $count = count($items);
         Util::validateArray($items);
@@ -53,7 +52,7 @@ class Combination
      * @param   array<int, int|float|string>    $items
      * @return  array<int, array<int, int|float|string>>
      */
-    public function pairs(array $items)
+    public function pairs(array $items): array
     {
         Util::validateArray($items);
         if (count($items) < 2) {
@@ -72,12 +71,10 @@ class Combination
     /**
      * returns all combinations of $n elements
      * @param   array<int, int|float|string>    $items
-     * @param   int                             $n
-     * @param   bool                            $sort = false
      * @return  array<int, array<int, int|float|string>>
      * @thrown  \Exception
      */
-    public function ofN(array $items, int $n, bool $sort = false)
+    public function ofN(array $items, int $n, bool $sort = false): array
     {
         /**
          * ex) $items = [1,2,3,4], $n = 3
@@ -99,13 +96,10 @@ class Combination
     /**
      * returns all combinations of $a to $b elements
      * @param   array<int, int|float|string>    $items
-     * @param   int                             $a
-     * @param   int                             $b
-     * @param   bool                            $sort = false
      * @return  array<int, array<int, int|float|string>>
      * @thrown  \Exception
      */
-    public function ofA2B(array $items, int $a, int $b, bool $sort = false)
+    public function ofA2B(array $items, int $a, int $b, bool $sort = false): array
     {
         Util::validateArray($items);
         if ($a < 1 || $b < 1) {

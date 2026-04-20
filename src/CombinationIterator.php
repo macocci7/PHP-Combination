@@ -40,8 +40,6 @@ class CombinationIterator implements \Iterator
 
     /**
      * returns current element
-     *
-     * @return  mixed
      */
     public function current(): mixed
     {
@@ -54,8 +52,6 @@ class CombinationIterator implements \Iterator
 
     /**
      * returns current key.
-     *
-     * @return  int
      */
     public function key(): int
     {
@@ -86,8 +82,6 @@ class CombinationIterator implements \Iterator
 
     /**
      * rewinds the pointers and the key.
-     *
-     * @return  void
      */
     public function rewind(): void
     {
@@ -97,8 +91,6 @@ class CombinationIterator implements \Iterator
 
     /**
      * returns if the pointers are valid.
-     *
-     * @return  bool
      */
     public function valid(): bool
     {

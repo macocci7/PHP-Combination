@@ -23,7 +23,7 @@ class UseInPhpUnit
         string $size,
         string $color,
         int $amount
-    ) {
+    ): bool {
         $this->log->info('Adding a new order', [
             'productId' => $productId,
             'size' => $size,
