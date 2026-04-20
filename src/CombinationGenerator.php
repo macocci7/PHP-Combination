@@ -17,10 +17,9 @@ class CombinationGenerator
     /**
      * returns all combinations
      * @param   array<int, int|float|string>    $items
-     * @return  \Generator
      * @thrown  \Exception
      */
-    public function all(array $items)
+    public function all(array $items): \Generator
     {
         $count = count($items);
         Util::validateArray($items);
@@ -43,10 +42,9 @@ class CombinationGenerator
     /**
      * returns all pairs
      * @param   array<int, int|float|string>    $items
-     * @return  \Generator
      * @thrown  \Exception
      */
-    public function pairs(array $items)
+    public function pairs(array $items): \Generator
     {
         Util::validateArray($items);
         if (count($items) < 2) {
@@ -63,11 +61,9 @@ class CombinationGenerator
     /**
      * returns all combinations of $n elements
      * @param   array<int, int|float|string>    $items
-     * @param   int                             $n
-     * @return  \Generator
      * @thrown  \Exception
      */
-    public function ofN(array $items, int $n)
+    public function ofN(array $items, int $n): \Generator
     {
         /**
          * ex) $items = [1,2,3,4], $n = 3
@@ -87,12 +83,9 @@ class CombinationGenerator
     /**
      * returns all combinations of $a to $b elements
      * @param   array<int, int|float|string>    $items
-     * @param   int                             $a
-     * @param   int                             $b
-     * @return  \Generator
      * @thrown  \Exception
      */
-    public function ofA2B(array $items, int $a, int $b)
+    public function ofA2B(array $items, int $a, int $b): \Generator
     {
         Util::validateArray($items);
         if ($a < 1 || $b < 1) {

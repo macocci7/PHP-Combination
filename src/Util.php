@@ -11,9 +11,8 @@ class Util
 {
     /**
      * returns system bit
-     * @return  int
      */
-    public static function systemBit()
+    public static function systemBit(): int|float
     {
         // PHP_INT_MAX:
         // - 32bit-system: 4 (bytes)
@@ -24,10 +23,9 @@ class Util
     /**
      * validates the array
      * @param   array<int, int|float|string>  $array
-     * @return  true
      * @thrown  \Exception
      */
-    public static function validateArray(array $array)
+    public static function validateArray(array $array): bool
     {
         if (empty($array)) {
             throw new \Exception("Empty array set.");
@@ -46,7 +44,6 @@ class Util
     /**
      * validates the arrays
      * @param   mixed[]     $arrays
-     * @return  true
      * @thrown  \Exception
      */
     public static function validateArrays(array $arrays): bool
